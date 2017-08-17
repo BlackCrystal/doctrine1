@@ -73,11 +73,12 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      */
     protected static $null;
 
-    /**
-     * constructor
-     *
-     * @param Doctrine_Table|string $table
-     */
+  /**
+   * constructor
+   *
+   * @param Doctrine_Table|string $table
+   * @param string $keyColumn
+   */
     public function __construct($table, $keyColumn = null)
     {
         if ( ! ($table instanceof Doctrine_Table)) {
@@ -99,11 +100,13 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
         }
     }
 
-    /**
-     * Initializes the null object for this collection
-     *
-     * @return void
-     */
+  /**
+   * Initializes the null object for this collection
+   *
+   * @param Doctrine_Null $null
+   *
+   * @return void
+   */
     public static function initNullObject(Doctrine_Null $null)
     {
         self::$null = $null;
@@ -257,7 +260,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * Get the current key
      *
-     * @return Doctrine_Record
+     * @return int|string
      */
     public function key()
     {
@@ -272,7 +275,6 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     public function ksort()
     {
         ksort($this->data);
-
         return $this;
     }
 
@@ -342,8 +344,8 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * Search a Doctrine_Record instance
      *
-     * @param string $Doctrine_Record
-     * @return void
+     * @param Doctrine_Record $record
+     * @return int|string|false
      */
     public function search(Doctrine_Record $record)
     {
@@ -456,9 +458,11 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * Adds a record to collection
      *
-     * @param Doctrine_Record $record              record to be added
-     * @param string $key                          optional key for the record
-     * @return boolean
+     * @param Doctrine_Record $record record to be added
+     * @param string $key optional key for the record
+     *
+     * @return bool
+     * @throws Doctrine_Collection_Exception
      */
     public function add($record, $key = null)
     {
@@ -513,7 +517,9 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      * Merges collection into $this and returns merged collection
      *
      * @param Doctrine_Collection $coll
+     *
      * @return Doctrine_Collection
+     * @throws Doctrine_Collection_Exception
      */
     public function merge(Doctrine_Collection $coll)
     {
@@ -701,11 +707,13 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
         return $this;
     }
 
-    /**
-     * Mimics the result of a $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
-     *
-     * @param boolean $deep
-     */
+  /**
+   * Mimics the result of a $query->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+   *
+   * @param boolean $deep
+   *
+   * @return array
+   */
     public function toArray($deep = true, $prefixKey = false)
     {
         $data = array();
@@ -786,7 +794,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * Populate a Doctrine_Collection from an array of data
      *
-     * @param string $array
+     * @param array $array
      * @return void
      */
     public function fromArray($array, $deep = true)
@@ -832,7 +840,7 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      * Export a Doctrine_Collection to one of the supported Doctrine_Parser formats
      *
      * @param string $type
-     * @param string $deep
+     * @param bool $deep
      * @return void
      */
     public function exportTo($type, $deep = true)
@@ -900,8 +908,11 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      * Saves all records of this collection and processes the
      * difference of the last snapshot and the current data
      *
-     * @param Doctrine_Connection $conn     optional connection parameter
+     * @param Doctrine_Connection $conn optional connection parameter
+     * @param bool $processDiff
+     *
      * @return Doctrine_Collection
+     * @throws Exception
      */
     public function save(Doctrine_Connection $conn = null, $processDiff = true)
     {
@@ -935,8 +946,11 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
      * Replaces all records of this collection and processes the
      * difference of the last snapshot and the current data
      *
-     * @param Doctrine_Connection $conn     optional connection parameter
+     * @param Doctrine_Connection $conn optional connection parameter
+     * @param bool $processDiff
+     *
      * @return Doctrine_Collection
+     * @throws Exception
      */
     public function replace(Doctrine_Connection $conn = null, $processDiff = true)
     {
@@ -969,7 +983,11 @@ class Doctrine_Collection extends Doctrine_Access implements Countable, Iterator
     /**
      * Deletes all records from this collection
      *
+     * @param Doctrine_Connection|null $conn
+     * @param bool $clearColl
+     *
      * @return Doctrine_Collection
+     * @throws Exception
      */
     public function delete(Doctrine_Connection $conn = null, $clearColl = true)
     {
