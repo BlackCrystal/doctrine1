@@ -366,11 +366,12 @@ class Doctrine_Transaction extends Doctrine_Connection_Module
     }
 
     /**
-     * releaseSavePoint
-     * creates a new savepoint
+     * Creates a new savepoint
      *
-     * @param string $savepoint     name of a savepoint to create
+     * @param string $savepoint name of a savepoint to create
+     *
      * @return void
+     * @throws Doctrine_Transaction_Exception
      */
     protected function createSavePoint($savepoint)
     {
@@ -378,11 +379,12 @@ class Doctrine_Transaction extends Doctrine_Connection_Module
     }
 
     /**
-     * releaseSavePoint
-     * releases given savepoint
+     * Releases given savepoint
      *
-     * @param string $savepoint     name of a savepoint to release
+     * @param string $savepoint name of a savepoint to release
+     *
      * @return void
+     * @throws Doctrine_Transaction_Exception
      */
     protected function releaseSavePoint($savepoint)
     {
@@ -390,11 +392,12 @@ class Doctrine_Transaction extends Doctrine_Connection_Module
     }
 
     /**
-     * rollbackSavePoint
-     * releases given savepoint
+     * Rollbacks given savepoint
      *
-     * @param string $savepoint     name of a savepoint to rollback to
+     * @param string $savepoint name of a savepoint to rollback to
+     *
      * @return void
+     * @throws Doctrine_Transaction_Exception
      */
     protected function rollbackSavePoint($savepoint)
     {
@@ -430,7 +433,7 @@ class Doctrine_Transaction extends Doctrine_Connection_Module
      * removes a savepoint from the internal savePoints array of this transaction object
      * and all its children savepoints
      *
-     * @param sring $savepoint      name of the savepoint to remove
+     * @param string $savepoint     name of the savepoint to remove
      * @return integer              removed savepoints
      */
     private function removeSavePoints($savepoint)
@@ -467,7 +470,7 @@ class Doctrine_Transaction extends Doctrine_Connection_Module
      * $tx->setIsolation('READ UNCOMMITTED');
      * </code>
      *
-     * @param   string  standard isolation level
+     * @param   string  $isolation standard isolation level
      *                  READ UNCOMMITTED (allows dirty reads)
      *                  READ COMMITTED (prevents dirty reads)
      *                  REPEATABLE READ (prevents nonrepeatable reads)

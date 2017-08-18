@@ -48,13 +48,12 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
      */
     protected $_options = array();
 
-    /**
-     * __construct
-     *
-     * @param string $array 
-     * @return void
-     */
-    public function __construct(array $options = array())
+  /**
+   * Constructor
+   *
+   * @param array $options
+   */
+    public function __construct($options = array())
     {
         $this->_options = Doctrine_Lib::arrayDeepMerge($this->_options, $options);
     }
@@ -116,7 +115,7 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
     /**
      * Get plugin instance 
      * 
-     * @return void
+     * @return Doctrine_Record_Generator
      */
     public function getPlugin()
     {
@@ -161,10 +160,12 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
     }
 
     /**
-     * get 
-     * 
-     * @param mixed $name 
+     * get
+     *
+     * @param mixed $name
+     *
      * @return void
+     * @throws Doctrine_Exception
      */
     public function get($name) 
     {
@@ -172,11 +173,13 @@ abstract class Doctrine_Template extends Doctrine_Record_Abstract
     }
 
     /**
-     * set 
-     * 
-     * @param mixed $name 
-     * @param mixed $value 
+     * set
+     *
+     * @param mixed $name
+     * @param mixed $value
+     *
      * @return void
+     * @throws Doctrine_Exception
      */
     public function set($name, $value)
     {

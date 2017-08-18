@@ -41,8 +41,10 @@ class Doctrine_Validator extends Doctrine_Locator_Injectable
     /**
      * Get a validator instance for the passed $name
      *
-     * @param  string   $name  Name of the validator or the validator class name
-     * @return Doctrine_Validator_Interface $validator
+     * @param  string $name Name of the validator or the validator class name
+     *
+     * @return Doctrine_Validator_Driver $validator
+     * @throws Doctrine_Exception
      */
     public static function getValidator($name)
     {

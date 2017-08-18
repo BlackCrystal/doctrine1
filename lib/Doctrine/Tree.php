@@ -47,7 +47,7 @@ class Doctrine_Tree
     /**
      * constructor, creates tree with reference to table and any options
      *
-     * @param object $table                     instance of Doctrine_Table
+     * @param Doctrine_Table $table                     instance of Doctrine_Table
      * @param array $options                    options
      */
     public function __construct(Doctrine_Table $table, $options)
@@ -87,14 +87,15 @@ class Doctrine_Tree
     /**
      * Factory method to create a Tree.
      *
-     * This is a factory method that returns a tree instance based upon 
+     * This is a factory method that returns a tree instance based upon
      * chosen implementation.
      *
-     * @param object $table                     instance of Doctrine_Table
-     * @param string $impName                   implementation (NestedSet, AdjacencyList, MaterializedPath)
-     * @param array $options                    options
+     * @param Doctrine_Table $table instance of Doctrine_Table
+     * @param string $implName implementation (NestedSet, AdjacencyList, MaterializedPath)
+     * @param array $options options
+     *
      * @return Doctrine_Tree
-     * @throws Doctrine_Exception               if class $implName does not extend Doctrine_Tree
+     * @throws Doctrine_Exception if class $implName does not extend Doctrine_Tree
      */
     public static function factory(Doctrine_Table $table, $implName, $options = array())
     {
@@ -105,10 +106,13 @@ class Doctrine_Tree
         return new $class($table, $options);
     }
 
-    /**
-     * gets tree attribute value
-     *        
-     */     
+  /**
+   * gets tree attribute value
+   *
+   * @param string $name
+   *
+   * @return mixed|null
+   */
     public function getAttribute($name)
     {
       return isset($this->options[$name]) ? $this->options[$name] : null;
